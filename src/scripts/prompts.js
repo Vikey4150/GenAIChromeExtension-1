@@ -279,6 +279,69 @@ public class PlaywrightExample {
     \`\`\`
   `,
   /**
+   * Prompt for generating testcases using DOM
+   */
+  GENERATE_TEST_CASE_ONLY: `
+    Given the following DOM structure:
+    \`\`\`html
+    \${domContent}
+    \`\`\`
+
+    Generate manual test cases based on the provided HTML elements. Include:
+
+    [INSTRUCTIONS]
+- **TC #:** Get Test Case number
+- **Test Steps:** Step-by-step instructions on how to test each element.
+- **Expected Result:** The expected behavior for each step.
+- **Edge Cases:** Additional test scenarios.
+
+[DESIRED OUTPUT]
+- Give the Output in tabular format
+- Columns should be TC #, Test Steps, Expected Result
+
+[EXAMPLE]:
+
+### **TC 001 - Test Case: Verify Login Button**
+**Steps:**
+1. Open the application in a web browser.
+2. Locate the "Username" and "Password" fields.
+3. Enter valid credentials.
+4. Click the "Login" button.
+5. Verify that the user is successfully logged in.
+
+**Expected Result:** The user should be redirected to the homepage.
+`,
+/**
+   * Prompt for generating TestData using DOM
+   */
+GENERATE_TEST_DATA_ONLY: `
+Given the following DOM structure:
+\`\`\`html
+\${domContent}
+\`\`\`
+
+Generate Test Data based on the provided HTML elements. Include:
+
+[INSTRUCTIONS]
+- Analyse all input elements in the DOM
+- Generate 5 TestData for each input field in the DOM
+- Generate Test data for all negative and edge case scenario also
+
+
+[DESIRED OUTPUT]
+- Give the Output in tabular format
+- Columns should be Input Text Field Name, Test Data generated
+- Do not send any other additional comments
+
+[EXAMPLE]:
+For Example there are three input fields in the DOM - Name, Age, Sex. Output should be like
+| Name | Age | Sex |
+| John | 23  | M   |
+| Peter| 45  | F   |
+| Zen  | 32  | F   |
+etc...
+`,
+  /**
    * Prompt for generating Cucumber Feature file
    */
   CUCUMBER_ONLY: `
@@ -356,5 +419,7 @@ export const CODE_GENERATOR_TYPES = {
   PLAYWRIGHT_JAVA_TEST_ONLY: 'Playwright-Java-Test-Only',
   SELENIUM_JAVA_PAGE_ONLY: 'Selenium-Java-Page-Only',
   SELENIUM_JAVA_TEST_ONLY: 'Selenium-Java-Test-Only',
+  GENERATE_TEST_CASE_ONLY: 'Generate-Test-Case-Only',
+  GENERATE_TEST_DATA_ONLY: 'Generate-Test-Data-Only',
   CUCUMBER_ONLY: 'Cucumber-Only'
 };

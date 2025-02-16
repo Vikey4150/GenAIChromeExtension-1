@@ -623,7 +623,12 @@ class ChatUI {
             return 'SELENIUM_JAVA_PAGE_ONLY';
           } else if (radioValue === 'TEST') {
             return 'PLAYWRIGHT_JAVA_TEST_ONLY';
-          } else{
+          } else if (radioValue === 'TESTCASE'){
+            return 'GENERATE_TEST_CASE_ONLY';
+          }
+            else if (radioValue === 'TESTDATA'){
+                return 'GENERATE_TEST_DATA_ONLY';
+          } else {
             return 'CUCUMBER_ONLY';
           }
         }
@@ -641,7 +646,12 @@ class ChatUI {
             return 'SELENIUM_JAVA_PAGE_ONLY';
           } else if (radioValue === 'TEST') {
             return 'SELENIUM_JAVA_TEST_ONLY';
-          } else{
+          } else if (radioValue === 'TESTCASE'){
+            return 'GENERATE_TEST_CASE_ONLY';
+          } else if (radioValue === 'TESTDATA'){
+            return 'GENERATE_TEST_DATA_ONLY';
+        }
+          else {
             return 'CUCUMBER_ONLY';
           }
         }
