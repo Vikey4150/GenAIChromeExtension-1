@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modelSelect = document.getElementById('modelSelect');
     const groqApiKeyInput = document.getElementById('groqApiKey');
     const openaiApiKeyInput = document.getElementById('openaiApiKey');
-    const amazonbedrockApiKeyInput = document.getElementById('amazonbedrockApiKey');
+    const bedrockApiKeyInput = document.getElementById('bedrockApiKey');
     
     // Model options by provider
     const modelsByProvider = {
@@ -108,8 +108,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
         { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo' }
       ],
-      amazonbedrock: [
-        { value: 'llama-3.3-70b-versatile', label: 'llama-3.3-70b-versatile' }
+      bedrock: [
+        { value: 'Claude 3 Sonnet', label: 'Claude 3 Sonnet' },
+        {value: 'Llama 3 8B Instruct', label: 'Llama 3 8B Instruct'}
       ] 
     };
     
@@ -156,9 +157,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    if (amazonbedrockApiKeyInput) {
-      amazonbedrockApiKeyInput.addEventListener('change', (e) => {
-        storage.set({ amazonbedrockApiKey: e.target.value });
+    if (bedrockApiKeyInput) {
+      bedrockApiKeyInput.addEventListener('change', (e) => {
+        storage.set({ bedrockApiKey: e.target.value });
       });
     }
     
@@ -173,20 +174,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     function updateApiKeyVisibility(selectedModel) {
       const groqContainer = document.getElementById('groqKeyContainer');
       const openaiContainer = document.getElementById('openaiKeyContainer');
-      const amazonbedrockContainer = document.getElementById('amazonbedrockKeyContainer');
+      const bedrockContainer = document.getElementById('bedrockKeyContainer');
       
       if (providerSelect.value === 'groq') {
         groqContainer.style.display = 'block';
-        amazonbedrockContainer.style.display = 'none';
+        bedrockContainer.style.display = 'none';
       } else {
         groqContainer.style.display = 'none';
-        amazonbedrockContainer.style.display = 'block';
+        bedrockContainer.style.display = 'block';
       }
     }
     
     // Load saved values
     const result = await new Promise(resolve => {
-      storage.get(['groqApiKey', 'openaiApiKey', 'amazonbedrockApiKey', 'selectedModel', 'selectedProvider'], resolve);
+      storage.get(['groqApiKey', 'openaiApiKey', 'bedrockApiKey', 'selectedModel', 'selectedProvider'], resolve);
     });
     
     if (result.selectedProvider && providerSelect) {
@@ -200,8 +201,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (result.openaiApiKey && openaiApiKeyInput) {
       openaiApiKeyInput.value = result.openaiApiKey;
     }
-    if (result.amazonbedrockApiKey && amazonbedrockApiKeyInput) {
-      amazonbedrockApiKeyInput.value = result.amazonbedrockApiKey;
+    if (result.bedrockApiKey && bedrockApiKeyInput) {
+      bedrockApiKeyInput.value = result.bedrockApiKey;
     }
     if (result.selectedModel && modelSelect) {
       modelSelect.value = result.selectedModel;

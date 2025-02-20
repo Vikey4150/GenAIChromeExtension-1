@@ -72,11 +72,11 @@ class ChatUI {
 
         // Load stored keys
         chrome.storage.sync.get(
-          ['groqApiKey','openaiApiKey','amazonbedrockApiKey','selectedModel','selectedProvider'],
+          ['groqApiKey','openaiApiKey','bedrockApiKey','selectedModel','selectedProvider'],
           (result) => {
             if (result.groqApiKey)   this.groqAPI   = new GroqAPI(result.groqApiKey);
             if (result.openaiApiKey) this.openaiAPI = new OpenAIAPI(result.openaiApiKey);
-            if (result.amazonbedrockApiKey) this.amazonbedrockAPI = new AmazonbedrockAPI(result.amazonbedrockApiKey);
+            if (result.bedrockApiKey) this.bedrockAPI = new BedrockAPI(result.bedrockApiKey);
             this.selectedModel    = result.selectedModel    || '';
             this.selectedProvider = result.selectedProvider || '';
         });
@@ -85,7 +85,7 @@ class ChatUI {
         chrome.storage.onChanged.addListener((changes) => {
             if (changes.groqApiKey)       this.groqAPI   = new GroqAPI(changes.groqApiKey.newValue);
             if (changes.openaiApiKey)     this.openaiAPI = new OpenAIAPI(changes.openaiApiKey.newValue);
-            if (changes.amazonbedrockApiKey) this.amazonbedrockAPI = new AmazonbedrockAPI(changes.amazonbedrockApiKey.newValue);
+            if (changes.bedrockApiKey) this.bedrockAPI = new BedrockAPI(changes.bedrockApiKey.newValue);
             if (changes.selectedModel)    this.selectedModel = changes.selectedModel.newValue;
             if (changes.selectedProvider) this.selectedProvider = changes.selectedProvider.newValue;
         });
@@ -300,7 +300,7 @@ class ChatUI {
 
         let apiRef = null;
         if (this.selectedProvider === 'groq')   apiRef = this.groqAPI;
-        else apiRef = this.amazonbedrockAPI;
+        else apiRef = this.bedrockAPI;
 
         if (!apiRef) {
             this.addMessage(`Please set your ${this.selectedProvider} API key in the Settings tab.`, 'system');
