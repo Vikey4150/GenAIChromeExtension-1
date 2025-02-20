@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modelSelect = document.getElementById('modelSelect');
     const groqApiKeyInput = document.getElementById('groqApiKey');
     const openaiApiKeyInput = document.getElementById('openaiApiKey');
+    const amazonbedrockApiKeyInput = document.getElementById('amazonbedrockApiKey');
     
     // Model options by provider
     const modelsByProvider = {
@@ -106,6 +107,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         { value: 'gpt-4o', label: 'GPT-4o' },
         { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
         { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo' }
+      ],
+      amazonbedrock: [
+        { value: 'llama-3.3-70b-versatile', label: 'llama-3.3-70b-versatile' }
       ] 
     };
     
@@ -151,6 +155,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         storage.set({ openaiApiKey: e.target.value });
       });
     }
+
+    if (amazonbedrockApiKeyInput) {
+      amazonbedrockApiKeyInput.addEventListener('change', (e) => {
+        storage.set({ amazonbedrockApiKey: e.target.value });
+      });
+    }
     
     if (modelSelect) {
       modelSelect.addEventListener('change', (e) => {
@@ -163,19 +173,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     function updateApiKeyVisibility(selectedModel) {
       const groqContainer = document.getElementById('groqKeyContainer');
       const openaiContainer = document.getElementById('openaiKeyContainer');
+      const amazonbedrockContainer = document.getElementById('amazonbedrockKeyContainer');
       
       if (providerSelect.value === 'groq') {
         groqContainer.style.display = 'block';
-        openaiContainer.style.display = 'none';
+        amazonbedrockContainer.style.display = 'none';
       } else {
         groqContainer.style.display = 'none';
-        openaiContainer.style.display = 'block';
+        amazonbedrockContainer.style.display = 'block';
       }
     }
     
     // Load saved values
     const result = await new Promise(resolve => {
-      storage.get(['groqApiKey', 'openaiApiKey', 'selectedModel', 'selectedProvider'], resolve);
+      storage.get(['groqApiKey', 'openaiApiKey', 'amazonbedrockApiKey', 'selectedModel', 'selectedProvider'], resolve);
     });
     
     if (result.selectedProvider && providerSelect) {
@@ -188,6 +199,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     if (result.openaiApiKey && openaiApiKeyInput) {
       openaiApiKeyInput.value = result.openaiApiKey;
+    }
+    if (result.amazonbedrockApiKey && amazonbedrockApiKeyInput) {
+      amazonbedrockApiKeyInput.value = result.amazonbedrockApiKey;
     }
     if (result.selectedModel && modelSelect) {
       modelSelect.value = result.selectedModel;
